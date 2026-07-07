@@ -3,512 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Task Manager - ระบบจัดการภารกิจอวกาศ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>ระบบจัดการงาน - ธีมสุริยะจักรวาล</title>
+    <!-- นำเข้า Google Fonts ภาษาไทย และ Font Awesome สำหรับไอคอน -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Chakra Petch', sans-serif;
-        }
-
-        /* พื้นหลังอวกาศมืดมนและลึกลับ */
+        /* สไตล์พื้นฐาน & ธีมอวกาศ */
         body {
+            font-family: 'Sarabun', sans-serif;
             background: radial-gradient(circle at center, #1b2735 0%, #090a0f 100%);
-            min-height: 100vh;
             color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
+            align-items: flex-start;
         }
 
-        /* --- ระบบสุริยะจำลอง (Solar System Background) --- */
-        .solar-system {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* ดวงอาทิตย์กลางระบบ */
-        .sun {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #ffdd00 0%, #ff5500 100%);
-            border-radius: 50%;
-            box-shadow: 0 0 40px #ff5500;
-        }
-
-        /* วงโคจรโลก */
-        .earth-orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 350px;
-            height: 350px;
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            animation: orbit 25s linear infinite;
-        }
-
-        /* รูปโลก (Earth) */
-        .earth {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle at 30% 30%, #4b9cd3, #0d2c54);
-            border-radius: 50%;
-            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.7), 0 0 15px rgba(75, 156, 211, 0.5);
-        }
-
-        /* ทวีปจำลองบนโลก */
-        .earth::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 70% 60%, #4caf50 10%, transparent 40%),
-                        radial-gradient(circle at 40% 30%, #8bc34a 15%, transparent 50%);
-            border-radius: 50%;
-            opacity: 0.6;
-        }
-
-        /* วงโคจรดาวอังคารจำลอง */
-        .mars-orbit {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 520px;
-            height: 520px;
-            border: 1px dashed rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-            animation: orbit 40s linear infinite;
-        }
-
-        .mars {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 24px;
-            background: radial-gradient(circle at 30% 30%, #ff6b6b, #8b0000);
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(255, 107, 107, 0.4);
-        }
-
-        @keyframes orbit {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* --- กล่องจัดการงาน (Main Container) --- */
         .container {
-            background: rgba(15, 22, 36, 0.85);
-            backdrop-filter: blur(10px);
-            border: 2px solid #00e5ff;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
             width: 100%;
-            max-width: 550px;
-            padding: 30px;
-            border-radius: 20px;
-            z-index: 10;
-            position: relative;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        h1 {
+        /* การ์ดหลัก */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* หัวข้อ */
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #4fc3f7;
+            padding-left: 10px;
+        }
+
+        .card-title i {
+            color: #4fc3f7;
+        }
+
+        /* โซน Dashboard (การ์ด 3 สี) */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dash-box {
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #00e5ff;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .dash-box:hover {
+            transform: translateY(-3px);
+        }
+
+        /* ธีมสีดวงดาวตามประเภทงาน */
+        .box-all {
+            background: linear-gradient(135deg, #2b5876, #4e4376); /* ธีมเนบิวลา/งานทั้งหมด */
+            grid-column: span 1;
+        }
+        .box-pending {
+            background: linear-gradient(135deg, #f12711, #f5af19); /* ธีมดวงอาทิตย์/ยังไม่เสร็จ */
+            grid-column: span 1;
+        }
+        .box-done {
+            background: linear-gradient(135deg, #11998e, #38ef7d); /* ธีมโลก/เสร็จสิ้น */
+            grid-column: span 2;
+        }
+
+        .box-label {
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        .box-count {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* ส่วนแสดงรายวิชาด้านล่างแดชบอร์ด */
+        .sub-info {
+            font-size: 0.9rem;
+            color: #b0bec5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
         }
 
         /* ฟอร์มกรอกข้อมูล */
-        .task-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 25px;
+        .form-group {
+            margin-bottom: 16px;
         }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
+        .form-group:last-of-type {
+            margin-bottom: 24px;
         }
 
         label {
+            display: block;
             font-size: 0.9rem;
-            color: #8fa0b5;
+            margin-bottom: 8px;
+            color: #e0e0e0;
         }
 
-        input[type="text"], select, input[type="date"] {
+        label span {
+            color: #ff5252;
+        }
+
+        /* สไตล์ Input, Select */
+        input[type="text"], input[type="date"], select {
             width: 100%;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 0.95rem;
+            box-sizing: border-box;
             outline: none;
-            transition: 0.3s;
+            transition: all 0.3s;
         }
 
         input:focus, select:focus {
-            border-color: #00e5ff;
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
-            background: rgba(255, 255, 255, 0.1);
+            border-color: #4fc3f7;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 8px rgba(79, 195, 247, 0.5);
         }
 
-        /* ตกแต่งปฏิทินตัวเลือกให้เป็นธีมอวกาศ */
+        /* ปรับแต่งสีปฏิทินและตัวเลือกให้เข้ากับธีมมืด */
         input[type="date"]::-webkit-calendar-picker-indicator {
             filter: invert(1);
-            cursor: pointer;
         }
 
         select option {
-            background: #15161e;
-            color: white;
+            background: #1b2735;
+            color: #fff;
         }
 
-        /* ปุ่มบันทึกภารกิจ */
-        .btn-add {
-            background: linear-gradient(45deg, #0077ff, #00e5ff);
-            color: white;
-            border: none;
+        /* ปุ่มบันทึกข้อมูล (ธีมจรวดขับเคลื่อน) */
+        .btn-submit {
+            width: 100%;
             padding: 14px;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
-        }
-
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
-        }
-
-        /* --- รายการภารกิจที่แสดงลงไปด้านล่าง --- */
-        .task-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-height: 320px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* ตกแต่ง Scrollbar แถบเลื่อนขวา */
-        .task-list::-webkit-scrollbar {
-            width: 6px;
-        }
-        .task-list::-webkit-scrollbar-thumb {
-            background: rgba(0, 229, 255, 0.3);
-            border-radius: 10px;
-        }
-
-        .task-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 5px solid #0077ff;
-            padding: 15px;
-            border-radius: 0 10px 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: 0.3s;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .task-item:hover {
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        .task-info {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        .task-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: #ffffff;
-            word-break: break-all;
-        }
-
-        .task-meta {
-            font-size: 0.85rem;
-            display: flex;
-            gap: 10px;
-            color: #a0aec0;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .badge {
-            padding: 2px 8px;
-            border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* ป้ายแยกประเภทวิชา */
-        .badge-math { background: #ff4757; color: white; }
-        .badge-sci { background: #2ed573; color: white; }
-        .badge-eng { background: #ffa502; color: white; }
-        .badge-thai { background: #1e90ff; color: white; }
-        .badge-social { background: #9b59b6; color: white; }
-        .badge-other { background: #747d8c; color: white; }
-
-        /* ส่วนของปุ่มการจัดการ แก้ไข/ลบ */
-        .task-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .btn-edit {
-            background: transparent;
-            border: 1px solid #ffa502;
-            color: #ffa502;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.8rem;
-        }
-
-        .btn-edit:hover {
-            background: #ffa502;
-            color: black;
-        }
-
-        .btn-delete {
-            background: transparent;
-            border: 1px solid #ff4757;
-            color: #ff4757;
-            padding: 6px 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.8rem;
-        }
-
-        .btn-delete:hover {
-            background: #ff4757;
+            background: linear-gradient(135deg, #0288d1, #00796b);
+            border: none;
+            border-radius: 8px;
             color: white;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(2, 136, 209, 0.4);
+            transition: all 0.3s;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #03a9f4, #009688);
+            box-shadow: 0 6px 20px rgba(3, 169, 244, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <div class="solar-system">
-        <div class="sun"></div>
-        <div class="earth-orbit">
-            <div class="earth"></div>
+<div class="container">
+
+    <!-- ส่วนที่ 1: สรุปภาพรวมงาน (Dashboard) -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fa-solid fa-chart-pie"></i> สรุปภาพรวมงาน (Dashboard)
         </div>
-        <div class="mars-orbit">
-            <div class="mars"></div>
+        
+        <div class="dashboard-grid">
+            <div class="dash-box box-all">
+                <div class="box-label">งานทั้งหมด</div>
+                <div class="box-count">0</div>
+            </div>
+            <div class="dash-box box-pending">
+                <div class="box-label">ยังไม่เสร็จ</div>
+                <div class="box-count">0</div>
+            </div>
+            <div class="dash-box box-done">
+                <div class="box-label">เสร็จสิ้นแล้ว</div>
+                <div class="box-count">0</div>
+            </div>
+        </div>
+
+        <div class="sub-info">
+            <i class="fa-solid fa-shuttle-space"></i> จำนวนงานแยกตามรายวิชา:
         </div>
     </div>
 
-    <div class="container">
-        <h1>COMMAND CENTER</h1>
-        
-        <div class="task-form">
-            <div class="input-group">
-                <label for="taskInput">ชื่อภารกิจ / การบ้าน</label>
-                <input type="text" id="taskInput" placeholder="กรอกชื่อภารกิจที่ต้องทำ...">
+    <!-- ส่วนที่ 2: ฟอร์มเพิ่มงานใหม่ -->
+    <div class="card">
+        <div class="card-title">
+            <i class="fa-solid fa-circle-plus"></i> เพิ่มงานใหม่
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('บันทึกข้อมูลงานสู่อวกาศเรียบร้อย!');">
+            <div class="form-group">
+                <label for="task-name">ชื่องาน / การบ้าน <span>*</span></label>
+                <input type="text" id="task-name" placeholder="เช่น ส่งรายงานวิชาดาวอังคารศึกษา" required>
             </div>
 
-            <div class="input-group">
-                <label for="subjectSelect">หมวดหมู่วิชา</label>
-                <select id="subjectSelect">
-                    <option value="math">คณิตศาสตร์</option>
-                    <option value="sci">วิทยาศาสตร์</option>
-                    <option value="eng">ภาษาอังกฤษ</option>
-                    <option value="thai">ภาษาไทย</option>
-                    <option value="social">สังคมศึกษา</option>
-                    <option value="other">วิชาอื่นๆ</option>
+            <div class="form-group">
+                <label for="subject">รายวิชา <span>*</span></label>
+                <input type="text" id="subject" placeholder="เช่น ดาราศาสตร์ฟิสิกส์เบื้องต้น" required>
+            </div>
+
+            <div class="form-group">
+                <label for="due-date">วันที่ครบกำหนดส่ง <span>*</span></label>
+                <input type="date" id="due-date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">ระดับความสำคัญ</label>
+                <select id="priority">
+                    <option value="low">ต่ำ (สีเขียวดาวเคราะห์)</option>
+                    <option value="medium" selected>ปานกลาง (สีเหลืองดาวฤกษ์)</option>
+                    <option value="high">สูงมาก (สีแดงซูเปอร์โนวา)</option>
                 </select>
             </div>
 
-            <div class="input-group">
-                <label for="dateInput">กำหนดส่งภารกิจ</label>
-                <input type="date" id="dateInput">
-            </div>
-
-            <button class="btn-add" id="mainBtn" onclick="addOrUpdateTask()">บันทึกภารกิจ</button>
-        </div>
-
-        <ul class="task-list" id="taskList"></ul>
+            <button type="submit" class="btn-submit">
+                <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลงาน
+            </button>
+        </form>
     </div>
 
-    <script>
-        // ใช้ระบบความจำของเว็บบราวเซอร์ LocalStorage เพื่อไม่ให้ข้อมูลหายตอนปิดเว็บ
-        let tasks = JSON.parse(localStorage.getItem('space_tasks_final')) || [];
-        let editId = null;
+</div>
 
-        const taskInput = document.getElementById('taskInput');
-        const subjectSelect = document.getElementById('subjectSelect');
-        const dateInput = document.getElementById('dateInput');
-        const mainBtn = document.getElementById('mainBtn');
-
-        function getSubjectLabel(subject) {
-            const labels = {
-                math: 'คณิตศาสตร์', sci: 'วิทยาศาสตร์', eng: 'ภาษาอังกฤษ',
-                thai: 'ภาษาไทย', social: 'สังคมศึกษา', other: 'วิชาอื่นๆ'
-            };
-            return labels[subject] || 'ทั่วไป';
-        }
-
-        function formatDate(dateString) {
-            if (!dateString) return 'ไม่ได้กำหนด';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
-        }
-
-        // ระบบจัดเรียงงานอัตโนมัติ (เรียงตามวันที่งานใกล้เดดไลน์ขึ้นก่อน)
-        function displayTasks() {
-            const taskList = document.getElementById('taskList');
-            taskList.innerHTML = '';
-
-            if (tasks.length === 0) {
-                taskList.innerHTML = `<li style="text-align:center; color: #747d8c; padding: 20px;">ไม่มีภารกิจค้างอยู่ ยินดีด้วยผู้บัญชาการ! 🛸</li>`;
-                return;
-            }
-
-            tasks.sort((a, b) => {
-                if (!a.date) return 1;
-                if (!b.date) return -1;
-                return new Date(a.date) - new Date(b.date);
-            });
-
-            tasks.forEach(task => {
-                const li = document.createElement('li');
-                li.className = 'task-item';
-                
-                const colors = { math: '#ff4757', sci: '#2ed573', eng: '#ffa502', thai: '#1e90ff', social: '#9b59b6', other: '#747d8c' };
-                li.style.borderLeftColor = colors[task.subject] || '#0077ff';
-
-                li.innerHTML = `
-                    <div class="task-info">
-                        <span class="task-title">${task.title}</span>
-                        <div class="task-meta">
-                            <span class="badge badge-${task.subject}">${getSubjectLabel(task.subject)}</span>
-                            <span>📅 ส่ง: ${formatDate(task.date)}</span>
-                        </div>
-                    </div>
-                    <div class="task-actions">
-                        <button class="btn-edit" onclick="editTask(${task.id})">แก้ไข</button>
-                        <button class="btn-delete" onclick="deleteTask(${task.id})">ลบ</button>
-                    </div>
-                `;
-                taskList.appendChild(li);
-            });
-        }
-
-        // ระบบเพิ่มงานใหม่ และ ตรวจจับคำสั่งแก้ไขเพื่อบันทึกทับงานเดิม
-        function addOrUpdateTask() {
-            const title = taskInput.value.trim();
-            const subject = subjectSelect.value;
-            const date = dateInput.value;
-
-            if (title === '') {
-                alert('กรุณากรอกชื่อภารกิจก่อนครับกัปตัน!');
-                return;
-            }
-
-            if (editId !== null) {
-                // แก้ไขข้อมูลเก่า
-                tasks = tasks.map(task => {
-                    if (task.id === editId) {
-                        return { ...task, title: title, subject: subject, date: date };
-                    }
-                    return task;
-                });
-                editId = null;
-                mainBtn.innerText = 'บันทึกภารกิจ';
-                mainBtn.style.background = 'linear-gradient(45deg, #0077ff, #00e5ff)';
-            } else {
-                // เพิ่มข้อมูลชิ้นใหม่
-                const newTask = {
-                    id: Date.now(),
-                    title: title,
-                    subject: subject,
-                    date: date
-                };
-                tasks.push(newTask);
-            }
-
-            localStorage.setItem('space_tasks_final', JSON.stringify(tasks));
-            displayTasks();
-
-            taskInput.value = '';
-            dateInput.value = '';
-        }
-
-        // ระบบดึงข้อมูลเก่าวัดค่าขึ้นช่องฟอร์มเพื่อแก้ไข
-        function editTask(id) {
-            const taskToEdit = tasks.find(task => task.id === id);
-            if (taskToEdit) {
-                taskInput.value = taskToEdit.title;
-                subjectSelect.value = taskToEdit.subject;
-                dateInput.value = taskToEdit.date;
-                editId = id;
-                mainBtn.innerText = 'อัปเดตภารกิจ 🛰️';
-                mainBtn.style.background = 'linear-gradient(45deg, #ffa502, #ff7f50)';
-                taskInput.focus();
-            }
-        }
-
-        // ระบบลบชิ้นงานออก
-        function deleteTask(id) {
-            if (confirm('ต้องการลบภารกิจนี้ใช่ไหมครับกัปตัน?')) {
-                tasks = tasks.filter(task => task.id !== id);
-                if (editId === id) {
-                    editId = null;
-                    mainBtn.innerText = 'บันทึกภารกิจ';
-                    mainBtn.style.background = 'linear-gradient(45deg, #0077ff, #00e5ff)';
-                    taskInput.value = '';
-                    dateInput.value = '';
-                }
-                localStorage.setItem('space_tasks_final', JSON.stringify(tasks));
-                displayTasks();
-            }
-        }
-
-        displayTasks();
-    </script>
 </body>
 </html>
